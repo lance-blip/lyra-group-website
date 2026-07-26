@@ -1,46 +1,35 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
+import { getAllPosts } from "@/lib/blog";
 
 export const metadata: Metadata = {
   title: "Debt Recovery Insights for SA SMEs",
   description:
-    "Guides on unpaid invoices, the Debt Collectors Act, and commercial vs consumer collection in South Africa.",
+    "Guides on unpaid invoices, the Debt Collectors Act, and commercial vs consumer collection in South Africa — written for SME owners and answer engines.",
+  alternates: { canonical: "/blog" },
+  openGraph: {
+    title: "Debt Recovery Insights for SA SMEs | Lyra Group",
+    description:
+      "Practical, SA-specific debt recovery and compliance writing for business owners who are owed money.",
+    url: "/blog",
+    type: "website",
+  },
 };
 
-const POSTS = [
-  {
-    slug: "recover-unpaid-invoices-south-africa",
-    title:
-      "How to Recover Unpaid Invoices in South Africa: A Complete Guide for SMEs (2026)",
-    category: "Debt Recovery",
-    read: "12 min",
-    excerpt:
-      "Why invoices go unpaid, when internal recovery hits a wall, and how professional collection actually works.",
-  },
-  {
-    slug: "debt-collectors-act-114-of-1998",
-    title:
-      "The Debt Collectors Act 114 of 1998: What Every South African Business Owner Needs to Know",
-    category: "Compliance",
-    read: "11 min",
-    excerpt:
-      "What registered collectors can and cannot do — and why compliance protects your business, not just theirs.",
-  },
-  {
-    slug: "commercial-vs-consumer-debt-collection",
-    title:
-      "Commercial vs Consumer Debt Collection in South Africa: Key Differences",
-    category: "SME Finance",
-    read: "10 min",
-    excerpt:
-      "Definitions, regulatory differences, and which service path fits your book of debt.",
-  },
+const FILTERS = [
+  "All",
+  "Debt Recovery",
+  "Compliance",
+  "SME Finance",
+  "Industry Insights",
 ];
 
-const FILTERS = ["All", "Debt Recovery", "Compliance", "SME Finance", "Industry Insights"];
-
 export default function BlogPage() {
+  const posts = getAllPosts();
+  const featured = posts[0];
+  const rest = posts.slice(1);
+
   return (
     <PageShell
       eyebrow="Blog"
@@ -60,36 +49,79 @@ export default function BlogPage() {
           ))}
         </div>
 
-        <article className="card-lyra border-lyra-accent/40 md:p-8">
-          <p className="text-xs font-semibold uppercase tracking-wider text-lyra-accent-strong">
-            Featured · {POSTS[0].category}
-          </p>
-          <h2 className="mt-2 font-serif text-2xl md:text-3xl">
-            <Link href={`/blog/${POSTS[0].slug}`} className="hover:underline">
-              {POSTS[0].title}
+        {featured ? (
+          <article className="card-lyra border-lyra-accent/40 md:p-8">
+            <p className="text-xs font-semibold uppercase tracking-wider text-lyra-accent-strong">
+              Featured · {featured.category}
+            </p>
+            <h2 className="mt-2 font-serif text-2xl md:text-3xl">
+              <Link href={`/blog/${featured.slug}`} className="hover:underline">
+                {featured.title}
+              </Link>
+            </h2>
+            <p className="mt-3 max-w-2xl text-sm text-lyra-muted">{featured.excerpt}</p>
+            <p className="mt-4 text-xs text-lyra-muted">
+              {featured.readTime} read · {featured.author}
+            </p>
+            <Link
+              href={`/blog/${featured.slug}`}
+              className="mt-5 inline-flex text-sm font-semibold text-lyra-accent-strong hover:underline"
+            >
+              Read the full guide →
             </Link>
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm text-lyra-muted">{POSTS[0].excerpt}</p>
-          <p className="mt-4 text-xs text-lyra-muted">{POSTS[0].read} read · Full article in Phase 2</p>
-        </article>
+          </article>
+        ) : (
+          <p className="text-sm text-lyra-muted">Articles coming soon.</p>
+        )}
 
-        <div className="grid gap-5 md:grid-cols-2">
-          {POSTS.slice(1).map((post) => (
-            <article key={post.slug} className="card-lyra">
-              <p className="text-xs font-semibold uppercase tracking-wider text-lyra-accent-strong">
-                {post.category}
-              </p>
-              <h2 className="mt-2 font-serif text-xl">
-                <Link href={`/blog/${post.slug}`} className="hover:underline">
-                  {post.title}
-                </Link>
-              </h2>
-              <p className="mt-2 text-sm text-lyra-muted">{post.excerpt}</p>
-              <p className="mt-4 text-xs text-lyra-muted">{post.read} read · Scaffold</p>
-            </article>
-          ))}
-        </div>
+        {rest.length > 0 && (
+          <div className="grid gap-5 md:grid-cols-2">
+            {rest.map((post) => (
+              <article key={post.slug} className="card-lyra">
+                <p className="text-xs font-semibold uppercase tracking-wider text-lyra-accent-strong">
+                  {post.category}
+                </p>
+                <h2 className="mt-2 font-serif text-xl">
+                  <Link href={`/blog/${post.slug}`} className="hover:underline">
+                    {post.title}
+                  </Link>
+                </h2>
+                <p className="mt-2 text-sm text-lyra-muted">{post.excerpt}</p>
+                <p className="mt-4 text-xs text-lyra-muted">
+                  {post.readTime} read · {formatDate(post.publishedAt)}
+                </p>
+              </article>
+            ))}
+          </div>
+        )}
+
+        <section className="rounded-2xl border border-lyra-border bg-white p-6 md:p-8">
+          <h2 className="font-serif text-xl font-bold text-lyra-primary">
+            Prefer a human conversation?
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm text-lyra-muted">
+            If unpaid invoices are already choking cash flow, skip the rabbit hole.
+            Lyra Group offers a free consultation on a compliance-first,{" "}
+            <strong className="text-lyra-primary">No Collection. No Fee.</strong> basis
+            for qualifying commercial recoveries.
+          </p>
+          <Link href="/contact" className="btn-primary mt-5 inline-flex">
+            Get a Free Consultation
+          </Link>
+        </section>
       </div>
     </PageShell>
   );
+}
+
+function formatDate(iso: string) {
+  try {
+    return new Intl.DateTimeFormat("en-ZA", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    }).format(new Date(iso));
+  } catch {
+    return iso;
+  }
 }
