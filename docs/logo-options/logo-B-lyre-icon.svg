@@ -1,0 +1,13 @@
+<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lyra mark B">
+  <path d="M16 12 C12 12 8 20 8 32 C8 46 16 54 32 58 C48 54 56 46 56 32 C56 20 52 12 48 12"
+        stroke="#1B2A4A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M16 28 H48" stroke="#1B2A4A" stroke-width="1.6" stroke-linecap="round"/>
+  <g stroke="#D4A574" stroke-width="1.1" stroke-linecap="round">
+    <line x1="24" y1="28" x2="24" y2="48"/>
+    <line x1="32" y1="28" x2="32" y2="52"/>
+    <line x1="40" y1="28" x2="40" y2="48"/>
+  </g>
+  <circle cx="16" cy="12" r="2.4" fill="#C4784A"/>
+  <circle cx="48" cy="12" r="2.4" fill="#C4784A"/>
+  <circle cx="32" cy="58" r="2.8" fill="#C4784A"/>
+</svg>

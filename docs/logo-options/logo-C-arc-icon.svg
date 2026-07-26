@@ -1,0 +1,7 @@
+<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lyra mark C">
+  <path d="M10 48 Q 32 8 54 48" stroke="#1B2A4A" stroke-width="1.5" fill="none" opacity="0.55"/>
+  <circle cx="14" cy="42" r="2.6" fill="#1B2A4A"/>
+  <circle cx="32" cy="14" r="3.8" fill="#C4784A"/>
+  <circle cx="32" cy="14" r="7" fill="#D4A574" opacity="0.22"/>
+  <circle cx="50" cy="42" r="2.6" fill="#1B2A4A"/>
+</svg>
