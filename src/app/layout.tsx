@@ -15,18 +15,27 @@ const sourceSans = Source_Sans_3({
   subsets: ["latin"],
   variable: "--font-source-sans",
   display: "swap",
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
 });
 
 const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains",
   display: "swap",
-  weight: ["400"],
+  weight: ["400", "600"],
 });
 
+const isSpikeHost =
+  process.env.NEXT_PUBLIC_SITE_ENV === "spike" ||
+  process.env.CF_PAGES_BRANCH === "preview" ||
+  process.env.LYRA_SPIKE === "1" ||
+  // Default: spike preview stays noindex until production cutover
+  process.env.NEXT_PUBLIC_ALLOW_INDEX !== "true";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://lyragroup.co.za"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://lyra-spike.quikle.co.za",
+  ),
   title: {
     default: "Lyra Group | Debt Collection South Africa — No Collection. No Fee.",
     template: "%s | Lyra Group",
@@ -41,7 +50,9 @@ export const metadata: Metadata = {
     description:
       "Recover unpaid invoices with a compliance-first, female-owned debt collection agency in Johannesburg.",
   },
-  robots: { index: true, follow: true },
+  robots: isSpikeHost
+    ? { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false } }
+    : { index: true, follow: true },
   alternates: { canonical: "/" },
 };
 

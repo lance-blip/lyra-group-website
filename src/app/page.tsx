@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { CountUp } from "@/components/motion/CountUp";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 
 const PROBLEMS = [
   {
@@ -45,18 +47,22 @@ const SERVICES = [
   {
     title: "Get paid on commercial invoices that have gone quiet",
     href: "/services#commercial",
+    icon: "01",
   },
   {
     title: "Recover consumer debt without damaging your brand",
     href: "/services#consumer",
+    icon: "02",
   },
   {
     title: "Escalate with legal muscle when persuasion isn't enough",
     href: "/services#legal",
+    icon: "03",
   },
   {
     title: "Outsource the chase so your team can run the business",
     href: "/services#mandate",
+    icon: "04",
   },
 ];
 
@@ -144,308 +150,388 @@ const FAQS = [
 export default function HomePage() {
   return (
     <div className="prose-lyra">
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-lyra-primary-deep via-lyra-primary to-[#243556] text-lyra-star">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-40"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 20% 30%, rgba(240,230,211,0.25), transparent 28%), radial-gradient(circle at 80% 20%, rgba(212,165,116,0.18), transparent 24%), radial-gradient(circle at 60% 70%, rgba(196,120,74,0.12), transparent 30%)",
-          }}
-        />
-        <div className="container-lyra relative section-pad !pb-20 !pt-16 md:!pt-24">
-          <div className="inline-flex items-center rounded-full border border-lyra-accent/50 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-lyra-accent">
-            No Collection. No Fee.
+      {/* Hero — full viewport, WCAG-safe contrast */}
+      <section className="hero-shell">
+        <div className="hero-stars" aria-hidden />
+        <div className="hero-overlay" aria-hidden />
+        <div className="hero-content">
+          <div className="container-lyra">
+            <Reveal y={18}>
+              <div className="hero-badge">No Collection. No Fee.</div>
+            </Reveal>
+            <Reveal delay={0.08} y={24}>
+              <h1 className="heading-display mt-6 max-w-4xl">
+                Your invoices are unpaid. Your cash flow is suffering. That ends
+                here.
+              </h1>
+            </Reveal>
+            <Reveal delay={0.16} y={20}>
+              <p className="hero-sub mt-6">
+                Lyra Group helps South African SMEs recover B2B debt —
+                professionally, compliantly, and only when we succeed.
+              </p>
+            </Reveal>
+            <Reveal delay={0.24} y={16}>
+              <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <Link href="/contact" className="btn-primary">
+                  Get a Free Consultation
+                </Link>
+                <a href="#plan" className="btn-secondary">
+                  See how it works
+                </a>
+              </div>
+            </Reveal>
+            <Reveal delay={0.32}>
+              <p className="hero-meta mt-10">
+                CDC-aligned · POPIA compliant · Female-owned · Johannesburg
+              </p>
+            </Reveal>
           </div>
-          <h1 className="mt-5 max-w-3xl font-serif text-3xl font-semibold leading-[1.15] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-[3.25rem]">
-            Your invoices are unpaid. Your cash flow is suffering. That ends
-            here.
-          </h1>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-lyra-star/85 sm:text-lg">
-            Lyra Group helps South African SMEs recover B2B debt —
-            professionally, compliantly, and only when we succeed.
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Link href="/contact" className="btn-primary">
-              Get a Free Consultation
-            </Link>
-            <a
-              href="#plan"
-              className="text-sm font-semibold text-lyra-accent underline-offset-4 hover:underline"
-            >
-              See how the process works →
-            </a>
-          </div>
-          <p className="mt-8 text-xs font-medium uppercase tracking-[0.12em] text-lyra-star/60">
-            CDC-aligned · POPIA compliant · Female-owned · Johannesburg
-          </p>
         </div>
       </section>
 
       {/* Problem */}
       <section className="container-lyra section-pad">
-        <p className="eyebrow">The problem</p>
-        <h2 className="mt-2 max-w-3xl font-serif text-2xl font-semibold text-lyra-primary sm:text-3xl md:text-4xl">
-          Unpaid invoices don&apos;t just hurt your books — they stall your
-          business
-        </h2>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
+        <Reveal>
+          <p className="eyebrow">The problem</p>
+          <h2 className="heading-xl heading-accent-rule mt-3 max-w-3xl">
+            Unpaid invoices don&apos;t just hurt your books — they stall your
+            business
+          </h2>
+        </Reveal>
+        <Stagger className="mt-12 grid gap-6 md:grid-cols-3" stagger={0.12}>
           {PROBLEMS.map((item) => (
-            <div key={item.title} className="card-lyra border-l-4 border-l-lyra-accent-strong">
-              <h3 className="font-serif text-xl text-lyra-primary">{item.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-lyra-muted">
-                {item.body}
-              </p>
-            </div>
+            <StaggerItem key={item.title}>
+              <div className="card-lyra h-full border-l-4 border-l-lyra-accent-strong">
+                <h3 className="heading-lg">{item.title}</h3>
+                <p className="mt-3 text-[0.95rem] leading-relaxed text-lyra-muted">
+                  {item.body}
+                </p>
+              </div>
+            </StaggerItem>
           ))}
-        </div>
-        <p className="mt-8 font-medium text-lyra-primary">
-          Hoping they&apos;ll pay is not a recovery strategy.
-        </p>
+        </Stagger>
+        <Reveal delay={0.15}>
+          <p className="mt-10 text-lg font-semibold text-lyra-primary">
+            Hoping they&apos;ll pay is not a recovery strategy.
+          </p>
+        </Reveal>
       </section>
 
       {/* Guide */}
       <section className="border-y border-lyra-border bg-white">
         <div className="container-lyra section-pad">
-          <p className="eyebrow">Your guide</p>
-          <h2 className="mt-2 max-w-3xl font-serif text-2xl font-semibold sm:text-3xl md:text-4xl">
-            A recovery partner who stands with you — not above you
-          </h2>
-          <p className="mt-4 max-w-2xl text-lyra-muted leading-relaxed">
-            Lyra Group is founder-led by Lee-Hing Sinnye — personal service,
-            compliance-first process, and female-owned pride without the
-            corporate runaround. We guide SME owners through recovery so you can
-            get back to running the business.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-2">
-            {["Professional process", "Trust account discipline", "SA legislation fluency"].map(
-              (chip) => (
-                <span
-                  key={chip}
-                  className="rounded-full bg-lyra-star/70 px-3 py-1 text-xs font-semibold text-lyra-primary"
-                >
+          <Reveal>
+            <p className="eyebrow">Your guide</p>
+            <h2 className="heading-xl heading-accent-rule mt-3 max-w-3xl">
+              A recovery partner who stands with you — not above you
+            </h2>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-lyra-muted">
+              Lyra Group is founder-led by Lee-Hing Sinnye — personal service,
+              compliance-first process, and female-owned pride without the
+              corporate runaround. We guide SME owners through recovery so you
+              can get back to running the business.
+            </p>
+          </Reveal>
+          <Stagger className="mt-8 flex flex-wrap gap-2.5" stagger={0.08}>
+            {[
+              "Professional process",
+              "Trust account discipline",
+              "SA legislation fluency",
+            ].map((chip) => (
+              <StaggerItem key={chip}>
+                <span className="inline-flex rounded-full border border-lyra-accent/35 bg-lyra-star/80 px-3.5 py-1.5 text-xs font-bold tracking-wide text-lyra-primary">
                   {chip}
                 </span>
-              ),
-            )}
-          </div>
-          <Link
-            href="/about"
-            className="mt-6 inline-block text-sm font-semibold text-lyra-accent-strong hover:underline"
-          >
-            Talk to a real person →
-          </Link>
-        </div>
-      </section>
-
-      {/* Values */}
-      <section className="bg-lyra-primary text-lyra-star">
-        <div className="container-lyra py-10">
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-center">
-            {VALUES.map((v) => (
-              <span
-                key={v}
-                className="font-serif text-sm font-semibold tracking-[0.08em] text-lyra-accent sm:text-base"
-              >
-                {v}
-              </span>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
+          <Reveal delay={0.1}>
+            <Link
+              href="/about"
+              className="mt-8 inline-flex text-sm font-bold text-lyra-accent-strong underline-offset-4 hover:underline"
+            >
+              Meet your guide →
+            </Link>
+          </Reveal>
         </div>
       </section>
 
-      {/* Failure / Stakes — Nova amendment */}
-      <section className="container-lyra section-pad !pb-8">
-        <p className="eyebrow">What delay costs you</p>
-        <h2 className="mt-2 max-w-3xl font-serif text-2xl font-semibold sm:text-3xl">
-          Ignore it long enough and the money doesn&apos;t just wait — it
-          vanishes
-        </h2>
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
-          {STAKES.map((s) => (
-            <div key={s.title} className="rounded-xl border border-lyra-border bg-white p-5">
-              <h3 className="font-serif text-lg text-lyra-primary">{s.title}</h3>
-              <p className="mt-2 text-sm text-lyra-muted leading-relaxed">{s.body}</p>
-            </div>
-          ))}
+      {/* Values strip — sequential reveal */}
+      <section className="values-strip text-lyra-star">
+        <div className="container-lyra py-12 md:py-14">
+          <Stagger
+            className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-center"
+            stagger={0.14}
+          >
+            {VALUES.map((v) => (
+              <StaggerItem key={v}>
+                <span className="font-serif text-sm font-bold tracking-[0.14em] text-lyra-accent sm:text-base md:text-lg">
+                  {v}
+                </span>
+              </StaggerItem>
+            ))}
+          </Stagger>
         </div>
+      </section>
+
+      {/* Failure / Stakes */}
+      <section className="container-lyra section-pad !pb-10">
+        <Reveal>
+          <p className="eyebrow">What delay costs you</p>
+          <h2 className="heading-xl heading-accent-rule mt-3 max-w-3xl">
+            Ignore it long enough and the money doesn&apos;t just wait — it
+            vanishes
+          </h2>
+        </Reveal>
+        <Stagger className="mt-12 grid gap-6 md:grid-cols-3" stagger={0.1}>
+          {STAKES.map((s) => (
+            <StaggerItem key={s.title}>
+              <div className="card-lyra h-full">
+                <div className="mb-3 h-1 w-10 rounded-full bg-lyra-accent-strong" />
+                <h3 className="heading-lg">{s.title}</h3>
+                <p className="mt-3 text-[0.95rem] leading-relaxed text-lyra-muted">
+                  {s.body}
+                </p>
+              </div>
+            </StaggerItem>
+          ))}
+        </Stagger>
       </section>
 
       {/* Plan */}
-      <section id="plan" className="container-lyra section-pad !pt-8">
-        <p className="eyebrow">The plan</p>
-        <h2 className="mt-2 font-serif text-2xl font-semibold sm:text-3xl md:text-4xl">
-          Three steps. No upfront risk.
-        </h2>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
+      <section id="plan" className="container-lyra section-pad !pt-10">
+        <Reveal>
+          <p className="eyebrow">The plan</p>
+          <h2 className="heading-xl heading-accent-rule mt-3">
+            Three steps. No upfront risk.
+          </h2>
+        </Reveal>
+        <Stagger className="mt-12 grid gap-6 md:grid-cols-3" stagger={0.12}>
           {PLAN.map((p) => (
-            <div key={p.step} className="card-lyra">
-              <div className="font-mono text-xs text-lyra-accent-strong">{p.step}</div>
-              <h3 className="mt-2 font-serif text-xl">{p.title}</h3>
-              <p className="mt-2 text-sm text-lyra-muted leading-relaxed">{p.body}</p>
-            </div>
+            <StaggerItem key={p.step}>
+              <div className="card-lyra h-full">
+                <div className="font-mono text-sm font-bold text-lyra-accent-strong">
+                  {p.step}
+                </div>
+                <h3 className="heading-lg mt-3">{p.title}</h3>
+                <p className="mt-3 text-[0.95rem] leading-relaxed text-lyra-muted">
+                  {p.body}
+                </p>
+              </div>
+            </StaggerItem>
           ))}
-        </div>
-        <div className="mt-8 inline-flex rounded-full border border-lyra-accent bg-lyra-star/50 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-lyra-primary">
-          No Collection. No Fee.
-        </div>
+        </Stagger>
+        <Reveal delay={0.1}>
+          <div className="mt-10 inline-flex rounded-full border border-lyra-accent-strong/40 bg-gradient-to-r from-lyra-star to-white px-5 py-2 text-xs font-bold uppercase tracking-[0.14em] text-lyra-primary shadow-sm">
+            No Collection. No Fee.
+          </div>
+        </Reveal>
       </section>
 
-      {/* Success — Nova amendment */}
+      {/* Success */}
       <section className="border-y border-lyra-border bg-white">
         <div className="container-lyra section-pad">
-          <p className="eyebrow">Success</p>
-          <h2 className="mt-2 max-w-3xl font-serif text-2xl font-semibold sm:text-3xl md:text-4xl">
-            What recovery actually feels like
-          </h2>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
+          <Reveal>
+            <p className="eyebrow">Success</p>
+            <h2 className="heading-xl heading-accent-rule mt-3 max-w-3xl">
+              What recovery actually feels like
+            </h2>
+          </Reveal>
+          <Stagger className="mt-12 grid gap-6 md:grid-cols-3" stagger={0.1}>
             {SUCCESS.map((s) => (
-              <div key={s.title} className="card-lyra">
-                <h3 className="font-serif text-xl text-lyra-primary">{s.title}</h3>
-                <p className="mt-2 text-sm text-lyra-muted leading-relaxed">{s.body}</p>
-              </div>
+              <StaggerItem key={s.title}>
+                <div className="card-lyra h-full">
+                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-lyra-accent/20 text-lyra-accent-strong">
+                    <span className="text-lg" aria-hidden>
+                      ✓
+                    </span>
+                  </div>
+                  <h3 className="heading-lg">{s.title}</h3>
+                  <p className="mt-3 text-[0.95rem] leading-relaxed text-lyra-muted">
+                    {s.body}
+                  </p>
+                </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* Services overview */}
       <section className="container-lyra section-pad">
-        <p className="eyebrow">How we help</p>
-        <h2 className="mt-2 font-serif text-2xl font-semibold sm:text-3xl">
-          Built around the problem you&apos;re actually facing
-        </h2>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {SERVICES.map((s) => (
-            <Link
-              key={s.title}
-              href={s.href}
-              className="card-lyra transition hover:border-lyra-accent"
-            >
-              <h3 className="font-serif text-lg text-lyra-primary">{s.title}</h3>
-              <span className="mt-3 inline-block text-sm font-semibold text-lyra-accent-strong">
-                View services →
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="bg-lyra-primary text-lyra-star">
-        <div className="container-lyra section-pad">
-          <h2 className="max-w-3xl font-serif text-2xl font-semibold sm:text-3xl">
-            South African businesses are sitting on money that belongs to them
+        <Reveal>
+          <p className="eyebrow">How we help</p>
+          <h2 className="heading-xl heading-accent-rule mt-3">
+            Built around the problem you&apos;re actually facing
           </h2>
-          <div className="mt-8 grid gap-6 sm:grid-cols-2">
-            <div>
-              <div className="font-serif text-3xl text-lyra-accent sm:text-4xl">
-                ~R2.4T
+        </Reveal>
+        <Stagger className="mt-12 grid gap-5 sm:grid-cols-2" stagger={0.1}>
+          {SERVICES.map((s) => (
+            <StaggerItem key={s.title}>
+              <Link href={s.href} className="card-lyra group block h-full">
+                <span className="font-mono text-xs font-bold text-lyra-accent-strong">
+                  {s.icon}
+                </span>
+                <h3 className="heading-lg mt-3 transition group-hover:text-lyra-accent-hover">
+                  {s.title}
+                </h3>
+                <span className="mt-4 inline-block text-sm font-bold text-lyra-accent-strong">
+                  View services →
+                </span>
+              </Link>
+            </StaggerItem>
+          ))}
+        </Stagger>
+      </section>
+
+      {/* Stats with count-up */}
+      <section className="relative overflow-hidden bg-lyra-primary-deep text-white">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-50"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 20% 40%, rgba(212,165,116,0.2), transparent 35%), radial-gradient(circle at 80% 70%, rgba(61,79,111,0.5), transparent 40%)",
+          }}
+        />
+        <div className="container-lyra section-pad relative z-10">
+          <Reveal>
+            <h2 className="max-w-3xl font-serif text-[clamp(1.75rem,3.5vw,2.75rem)] font-bold leading-tight tracking-tight text-white">
+              South African businesses are sitting on money that belongs to them
+            </h2>
+          </Reveal>
+          <div className="mt-12 grid gap-10 sm:grid-cols-2">
+            <Reveal delay={0.05}>
+              <div>
+                <div className="font-serif text-4xl font-bold text-lyra-accent sm:text-5xl md:text-6xl">
+                  ~R
+                  <CountUp end={2.4} decimals={1} />T
+                </div>
+                <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/75">
+                  Household debt context in South Africa (industry landscape)
+                </p>
               </div>
-              <p className="mt-1 text-sm text-lyra-star/75">
-                Household debt context in South Africa (industry landscape)
-              </p>
-            </div>
-            <div>
-              <div className="font-serif text-3xl text-lyra-accent sm:text-4xl">
-                R500B+
+            </Reveal>
+            <Reveal delay={0.12}>
+              <div>
+                <div className="font-serif text-4xl font-bold text-lyra-accent sm:text-5xl md:text-6xl">
+                  R
+                  <CountUp end={500} />B+
+                </div>
+                <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/75">
+                  Non-performing loans landscape — pressure that hits SME cash
+                  flow
+                </p>
               </div>
-              <p className="mt-1 text-sm text-lyra-star/75">
-                Non-performing loans landscape — pressure that hits SME cash flow
-              </p>
-            </div>
+            </Reveal>
           </div>
-          <p className="mt-8 max-w-2xl text-sm text-lyra-star/80">
-            You don&apos;t need another lecture on the economy. You need a
-            recovery plan.
-          </p>
+          <Reveal delay={0.18}>
+            <p className="mt-12 max-w-2xl text-base text-white/85">
+              You don&apos;t need another lecture on the economy. You need a
+              recovery plan.
+            </p>
+          </Reveal>
         </div>
       </section>
 
-      {/* Testimonials placeholders — no fabricated amounts */}
+      {/* Testimonials placeholders */}
       <section className="container-lyra section-pad">
-        <p className="eyebrow">Client voices</p>
-        <h2 className="mt-2 font-serif text-2xl font-semibold sm:text-3xl">
-          Results other business owners can feel in their cash flow
-        </h2>
-        <div className="mt-8 grid gap-5 md:grid-cols-3">
+        <Reveal>
+          <p className="eyebrow">Client voices</p>
+          <h2 className="heading-xl heading-accent-rule mt-3">
+            Results other business owners can feel in their cash flow
+          </h2>
+        </Reveal>
+        <Stagger className="mt-12 grid gap-6 md:grid-cols-3" stagger={0.1}>
           {[
             "Construction SME",
             "Professional services",
             "Wholesale distributor",
           ].map((industry) => (
-            <figure key={industry} className="card-lyra">
-              <div className="text-lyra-accent">★★★★★</div>
-              <blockquote className="mt-3 text-sm leading-relaxed text-lyra-muted italic">
-                REPLACE WITH REAL QUOTE — {industry} client testimonial pending
-                Lee-Hing approval.
-              </blockquote>
-              <figcaption className="mt-4 text-xs font-semibold text-lyra-primary">
-                Client name · Company · {industry}
-              </figcaption>
-            </figure>
+            <StaggerItem key={industry}>
+              <figure className="card-lyra h-full">
+                <div className="text-lyra-accent-strong" aria-label="5 stars">
+                  ★★★★★
+                </div>
+                <blockquote className="mt-4 text-[0.95rem] italic leading-relaxed text-lyra-muted">
+                  REPLACE WITH REAL QUOTE — {industry} client testimonial
+                  pending Lee-Hing approval.
+                </blockquote>
+                <figcaption className="mt-5 text-xs font-bold uppercase tracking-wide text-lyra-primary">
+                  Client name · Company · {industry}
+                </figcaption>
+              </figure>
+            </StaggerItem>
           ))}
-        </div>
-        <Link
-          href="/testimonials"
-          className="mt-6 inline-block text-sm font-semibold text-lyra-accent-strong hover:underline"
-        >
-          Read more client results →
-        </Link>
+        </Stagger>
+        <Reveal>
+          <Link
+            href="/testimonials"
+            className="mt-8 inline-block text-sm font-bold text-lyra-accent-strong underline-offset-4 hover:underline"
+          >
+            Read more client results →
+          </Link>
+        </Reveal>
       </section>
 
       {/* FAQ */}
       <section className="border-t border-lyra-border bg-white">
         <div className="container-lyra section-pad">
-          <p className="eyebrow">Questions owners actually ask</p>
-          <h2 className="mt-2 font-serif text-2xl font-semibold sm:text-3xl">
-            Straight answers before you commit
-          </h2>
-          <div className="mt-8 space-y-3">
-            {FAQS.map((item) => (
-              <details
-                key={item.q}
-                className="group rounded-xl border border-lyra-border bg-lyra-bg px-5 py-4"
-              >
-                <summary className="cursor-pointer list-none font-semibold text-lyra-primary marker:content-none">
-                  <span className="flex items-start justify-between gap-4">
-                    {item.q}
-                    <span className="text-lyra-accent-strong group-open:rotate-45 transition">
-                      +
+          <Reveal>
+            <p className="eyebrow">Questions owners actually ask</p>
+            <h2 className="heading-xl heading-accent-rule mt-3">
+              Straight answers before you commit
+            </h2>
+          </Reveal>
+          <div className="mt-12 space-y-3">
+            {FAQS.map((item, i) => (
+              <Reveal key={item.q} delay={Math.min(i * 0.03, 0.2)}>
+                <details className="group rounded-2xl border border-lyra-border bg-lyra-bg px-5 py-4 shadow-sm open:border-lyra-accent/40 open:shadow-md">
+                  <summary className="cursor-pointer list-none font-semibold text-lyra-primary marker:content-none">
+                    <span className="flex items-start justify-between gap-4">
+                      {item.q}
+                      <span className="mt-0.5 text-lyra-accent-strong transition group-open:rotate-45">
+                        +
+                      </span>
                     </span>
-                  </span>
-                </summary>
-                <p className="mt-3 text-sm font-medium text-lyra-primary">{item.a}</p>
-                <p className="mt-2 text-sm text-lyra-muted leading-relaxed">
-                  {item.expand}
-                </p>
-              </details>
+                  </summary>
+                  <p className="mt-3 text-sm font-semibold text-lyra-primary">
+                    {item.a}
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-lyra-muted">
+                    {item.expand}
+                  </p>
+                </details>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* Final CTA */}
-      <section className="bg-gradient-to-r from-lyra-primary-deep to-lyra-primary text-lyra-star">
-        <div className="container-lyra section-pad text-center">
-          <h2 className="font-serif text-2xl font-semibold sm:text-3xl md:text-4xl">
-            Ready to recover what&apos;s yours?
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-lyra-star/80">
-            Free consultation. Clear next steps. No Collection. No Fee.
-          </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link href="/contact" className="btn-primary">
-              Get a Free Consultation
-            </Link>
-            <Link
-              href="/contact#whatsapp"
-              className="text-sm font-semibold text-lyra-accent hover:underline"
-            >
-              WhatsApp us during business hours
-            </Link>
-          </div>
+      <section className="relative overflow-hidden bg-gradient-to-br from-lyra-primary-deep via-lyra-primary to-[#243556] text-white">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"
+        />
+        <div className="container-lyra section-pad relative z-10 text-center">
+          <Reveal>
+            <h2 className="mx-auto max-w-3xl font-serif text-[clamp(1.85rem,4vw,3rem)] font-bold leading-tight tracking-tight text-white">
+              Ready to recover what&apos;s yours?
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-base text-white/90">
+              Free consultation. Clear next steps. No Collection. No Fee.
+            </p>
+            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Link href="/contact" className="btn-primary">
+                Get a Free Consultation
+              </Link>
+              <Link href="/contact#whatsapp" className="btn-secondary">
+                WhatsApp us
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
     </div>

@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lyra Group Website
 
-## Getting Started
+Marketing site for **Lyra Group (Pty) Ltd** — professional debt recovery for South African SMEs.
 
-First, run the development server:
+- **Domain (production):** lyragroup.co.za  
+- **Spike preview:** https://lyra-spike.quikle.co.za  
+- **Repo:** https://github.com/lance-blip/lyra-group-website  
+- **Workspace:** `/home/openclaw/hermes-workspace/lyra-group-website/`
+
+## Stack (locked)
+
+| Layer | Choice |
+| --- | --- |
+| Framework | Next.js 15 (App Router) + TypeScript |
+| Styling | Tailwind CSS v4 + Celestial Ember tokens |
+| Motion | Framer Motion (scroll reveals, count-up, reduced-motion safe) |
+| Chat | Next.js API route → n8n webhook → Together AI MiniMax M3 |
+| Forms | `/api/contact` (honeypot; Resend wiring Phase 2) |
+| **Deploy target (locked)** | **Cloudflare Workers via OpenNext (`@opennextjs/cloudflare`)** — not Cloudflare Pages |
+
+Pages (legacy CF Pages product) is **not** used: account token lacks Pages write; Workers + OpenNext is the production path.
+
+### Deploy commands
+
+```bash
+npm install
+npm run build                 # next build
+npx opennextjs-cloudflare build
+npx opennextjs-cloudflare deploy
+# or
+npm run deploy
+```
+
+Worker name: `lyra-group-website`  
+Assets binding: `.open-next/assets` (see `wrangler.toml`)
+
+### Spike vs production indexing
+
+Spike hosts ship with **`robots: noindex, nofollow`** until cutover.  
+Set `NEXT_PUBLIC_ALLOW_INDEX=true` and `NEXT_PUBLIC_SITE_URL=https://lyragroup.co.za` only on production.
+
+## Brand
+
+- **Palette:** Celestial Ember — indigo `#1B2A4A` + champagne `#D4A574` / copper `#C4784A`
+- **Type:** Fraunces (display) + Source Sans 3 (body) + JetBrains Mono (numerals)
+- **StoryBrand:** visitor is the hero; Lyra Group is the guide
+- **Primary CTA:** Get a Free Consultation · badge: No Collection. No Fee.
+
+## Local development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project docs
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Full architecture, SEO map, chatbot branches, and build phases: [`PLAN.md`](./PLAN.md)
 
-## Learn More
+## Credits
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Website created by [Quikle AI Agents](https://www.quikle.co.za)

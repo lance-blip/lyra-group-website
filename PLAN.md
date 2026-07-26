@@ -6,9 +6,11 @@
 **Founder:** Lee-Hing Sinnye  
 **Local path:** `/home/openclaw/hermes-workspace/lyra-group-website/`  
 **GitHub:** `https://github.com/lance-blip/lyra-group-website`  
-**Status:** Phase 1 — Plan (awaiting Nova review)  
+**Status:** Phase 1 scaffold live — design polish + n8n next  
 **Planner:** Athena (Grok 4.5)  
 **Date:** 2026-07-26  
+**Spike preview:** https://lyra-spike.quikle.co.za (noindex until production)  
+**Palette locked:** Option B — Celestial Ember  
 
 ---
 
@@ -16,7 +18,9 @@
 
 Build a 7-page, StoryBrand-first marketing site for Lyra Group — a female-owned, compliance-first commercial debt collection agency targeting SA SMEs (R5M–R50M turnover). The visitor (SME owner owed money) is always the hero; Lyra Group is the guide. Primary CTA everywhere: **Get a Free Consultation**. Signature offer: **No Collection. No Fee.**
 
-Stack: Next.js 15 (App Router) + TypeScript + Tailwind + Framer Motion + React Three Fiber (hero only) + modular AI chatbot (n8n → Together AI MiniMax M3) + WhatsApp float + Cloudflare Pages deploy.
+Stack: Next.js 15 (App Router) + TypeScript + Tailwind v4 + Framer Motion + React Three Fiber (hero only, deferred) + modular AI chatbot (n8n → Together AI MiniMax M3) + WhatsApp float.
+
+**Deploy target (locked):** Cloudflare Workers via OpenNext (`@opennextjs/cloudflare` + Wrangler). **Not** Cloudflare Pages — account token path and Next 15 App Router API routes are production-validated on Workers.
 
 ---
 
@@ -533,21 +537,28 @@ Each includes: researched accuracy (SA law high-level, not legal advice disclaim
 
 ---
 
-## 10. Deployment Plan — Cloudflare Pages
+## 10. Deployment Plan — Cloudflare Workers + OpenNext (LOCKED)
+
+**Do not use Cloudflare Pages for this project.** Production path is Workers.
 
 1. Repo: `lance-blip/lyra-group-website`  
-2. Cloudflare Pages project linked to GitHub (Athena: `CF_ACCOUNT_ID` + `CLOUDFLARE_API_TOKEN`)  
-3. Build command: `npx @cloudflare/next-on-pages` **or** official Next on Pages adapter current to Next 15 at build time (verify adapter compatibility in Phase 2 spike)  
-4. Environment variables on CF:
-   - `N8N_WEBHOOK_URL` (server)
-   - Contact mail transport secrets (Resend/SMTP — decide in build; default Resend or nodemailer to Lee-Hing)
-   - Public: `NEXT_PUBLIC_SITE_URL=https://lyragroup.co.za`
-   - WhatsApp number when provided
-5. Custom domain: `lyragroup.co.za` + `www` redirect  
-6. Preview deployments on PR branches  
-7. Go-live only after Nova sign-off  
+2. Worker name: `lyra-group-website` (`wrangler.toml`)  
+3. Build + deploy:
+   ```bash
+   npx opennextjs-cloudflare build
+   npx opennextjs-cloudflare deploy
+   # or: npm run deploy
+   ```
+4. Spike hostname (current): `lyra-spike.quikle.co.za` on zone `quikle.co.za`  
+5. Production hostnames (cutover): `lyragroup.co.za` + `www.lyragroup.co.za`  
+6. Environment / secrets (Wrangler secrets or dashboard):
+   - `N8N_CHAT_WEBHOOK_URL`, `N8N_HMAC_SECRET`
+   - `CONTACT_TO_EMAIL`, `RESEND_API_KEY`
+   - Public: `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_ALLOW_INDEX` (`true` only on production)
+7. Spike remains **noindex** until production cutover  
+8. Go-live only after Nova + Lance sign-off  
 
-**Spike note:** Confirm Next.js 15 + Cloudflare Pages adapter path early (Phase 2.0). Fallback: static export where possible + separate edge functions — prefer full App Router on Pages.
+**Validated:** Next.js 15.5 + OpenNext Cloudflare + `nodejs_compat` — API routes `/api/contact` and `/api/chat` return 200 on Workers.
 
 ---
 
@@ -563,7 +574,7 @@ Each includes: researched accuracy (SA law high-level, not legal advice disclaim
 2. Design tokens (chosen palette) + typography  
 3. Layout: Header, Footer, Button, Section primitives  
 4. SVG logo (wordmark + icon)  
-5. Cloudflare Pages project + empty deploy pipeline spike  
+5. Cloudflare Workers + OpenNext deploy spike (done — lyra-spike.quikle.co.za)  
 
 ### Phase 2 — Core pages (content + StoryBrand)
 1. Home (all sections; StarField behind feature flag if perf risk)  

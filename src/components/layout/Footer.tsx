@@ -32,31 +32,31 @@ const FOOTER_LINKS = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-lyra-border bg-lyra-primary text-lyra-star">
-      <div className="container-lyra section-pad !pb-10 !pt-14">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+    <footer className="border-t border-white/10 bg-lyra-primary-deep text-lyra-star">
+      <div className="container-lyra section-pad !pb-10 !pt-16">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
             <LyraWordmark inverted showTagline />
-            <p className="max-w-xs text-sm leading-relaxed text-lyra-star/80">
+            <p className="max-w-xs text-sm leading-relaxed text-white/80">
               Professional debt recovery for South African SMEs. Compliant.
               Personal. Paid only when you are.
             </p>
-            <p className="text-xs text-lyra-accent">
+            <p className="text-xs font-semibold tracking-wide text-lyra-accent">
               Johannesburg · Mon–Fri 08:00–17:00
             </p>
           </div>
 
           {FOOTER_LINKS.map((col) => (
             <div key={col.title}>
-              <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-lyra-accent">
+              <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-lyra-accent">
                 {col.title}
               </h3>
-              <ul className="space-y-2">
+              <ul className="space-y-2.5">
                 {col.links.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-lyra-star/85 transition hover:text-white"
+                      className="text-sm text-white/80 transition hover:text-lyra-accent"
                     >
                       {link.label}
                     </Link>
@@ -67,12 +67,22 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-lyra-star/65 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-14 space-y-2 border-t border-white/10 pt-7 text-center text-xs leading-relaxed text-white/65 sm:text-left">
           <p>
-            © {new Date().getFullYear()} Lyra Group (Pty) Ltd. All rights
-            reserved.
+            © 2026 Lyra Group (Pty) Ltd. All Rights Reserved. POPIA Compliant.
           </p>
           <p>
+            Website created by{" "}
+            <a
+              href="https://www.quikle.co.za"
+              className="font-semibold text-lyra-accent hover:underline"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Quikle AI Agents
+            </a>
+          </p>
+          <p className="pt-1 text-white/50">
             This conversation may be logged.{" "}
             <Link href="/privacy" className="underline hover:text-lyra-accent">
               View our Privacy Policy
