@@ -1,26 +1,139 @@
 @import "tailwindcss";
 
+/* Celestial Ember — Option B */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --lyra-primary: #1b2a4a;
+  --lyra-primary-deep: #0e1628;
+  --lyra-secondary: #3d4f6f;
+  --lyra-accent: #d4a574;
+  --lyra-accent-strong: #c4784a;
+  --lyra-accent-hover: #a8623a;
+  --lyra-bg: #faf8f5;
+  --lyra-surface: #ffffff;
+  --lyra-text: #1a1a1a;
+  --lyra-muted: #6b6560;
+  --lyra-star: #f0e6d3;
+  --lyra-border: #e8e2d9;
+  --lyra-success: #2f6f4e;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-lyra-primary: var(--lyra-primary);
+  --color-lyra-primary-deep: var(--lyra-primary-deep);
+  --color-lyra-secondary: var(--lyra-secondary);
+  --color-lyra-accent: var(--lyra-accent);
+  --color-lyra-accent-strong: var(--lyra-accent-strong);
+  --color-lyra-accent-hover: var(--lyra-accent-hover);
+  --color-lyra-bg: var(--lyra-bg);
+  --color-lyra-surface: var(--lyra-surface);
+  --color-lyra-text: var(--lyra-text);
+  --color-lyra-muted: var(--lyra-muted);
+  --color-lyra-star: var(--lyra-star);
+  --color-lyra-border: var(--lyra-border);
+  --color-lyra-success: var(--lyra-success);
+  --font-sans: var(--font-source-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--lyra-bg);
+  color: var(--lyra-text);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--lyra-accent) 40%, white);
+  color: var(--lyra-primary);
+}
+
+.container-lyra {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .container-lyra {
+    padding-inline: 2rem;
+  }
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  background: var(--lyra-accent-strong);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.85rem 1.5rem;
+  transition: background 0.2s ease, transform 0.15s ease;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background: var(--lyra-accent-hover);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--lyra-accent) 70%, transparent);
+  color: var(--lyra-primary);
+  background: transparent;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.85rem 1.5rem;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: color-mix(in srgb, var(--lyra-star) 60%, white);
+  border-color: var(--lyra-accent);
+}
+
+.section-pad {
+  padding-block: 4rem;
+}
+
+@media (min-width: 768px) {
+  .section-pad {
+    padding-block: 5.5rem;
+  }
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lyra-accent-strong);
+}
+
+.prose-lyra h1,
+.prose-lyra h2,
+.prose-lyra h3 {
+  font-family: var(--font-serif);
+  color: var(--lyra-primary);
+  letter-spacing: -0.02em;
+}
+
+.card-lyra {
+  background: var(--lyra-surface);
+  border: 1px solid var(--lyra-border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(27, 42, 74, 0.04);
 }
