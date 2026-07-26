@@ -353,6 +353,80 @@ body {
   text-transform: uppercase;
 }
 
+/* Hero: copy left + 3D Lyra asterism right (stacks on mobile) */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 42rem;
+}
+
+.hero-3d {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: min(42vw, 280px);
+  min-height: 200px;
+  max-height: 320px;
+  pointer-events: none;
+  /* Sit above text on mobile so constellation reads as brand mark */
+  order: -1;
+  opacity: 0.95;
+  mask-image: radial-gradient(ellipse 70% 65% at 50% 50%, #000 35%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 50%, #000 35%, transparent 78%);
+}
+
+.hero-3d-canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media (min-width: 900px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+    gap: 2rem 1.25rem;
+  }
+
+  .hero-3d {
+    order: 0;
+    height: min(52vh, 440px);
+    max-height: 480px;
+    min-height: 320px;
+    /* Pull slightly into the dark right field */
+    margin-right: -1rem;
+    opacity: 1;
+  }
+
+  /* Soften overlay on the right so stars read through */
+  .hero-shell .hero-overlay {
+    background:
+      linear-gradient(
+        100deg,
+        rgba(6, 10, 20, 0.88) 0%,
+        rgba(10, 16, 32, 0.78) 48%,
+        rgba(10, 16, 32, 0.45) 78%,
+        rgba(10, 16, 32, 0.55) 100%
+      ),
+      radial-gradient(
+        ellipse 55% 60% at 72% 42%,
+        rgba(27, 42, 74, 0.15) 0%,
+        rgba(10, 16, 32, 0.55) 100%
+      );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-3d {
+    opacity: 0.75;
+  }
+}
+
 /* Nav glass on scroll */
 .nav-glass {
   background: rgba(250, 248, 245, 0.72);

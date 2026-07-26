@@ -119,39 +119,45 @@ export default function HomePage() {
         <div className="hero-stars" aria-hidden />
         <div className="hero-overlay" aria-hidden />
         <div className="hero-content">
-          <div className="container-lyra">
-            <Reveal>
-              <span className="hero-badge">No Collection. No Fee.</span>
-            </Reveal>
-            <Reveal delay={0.08}>
-              <h1 className="heading-display mt-6 max-w-4xl text-balance">
-                Your invoices are unpaid.{" "}
-                <span className="block sm:inline">Your cash flow is suffering.</span>{" "}
-                <span className="block">That ends here.</span>
-              </h1>
-            </Reveal>
-            <Reveal delay={0.16}>
-              <p className="hero-sub mt-6">
-                Professional debt recovery for South African SMEs who extended
-                credit, delivered the work, and are still waiting to be paid.
-                Lyra Group is your guide — compliant, personal, results-based.
-              </p>
-            </Reveal>
-            <Reveal delay={0.24}>
-              <div className="mt-9 flex flex-wrap items-center gap-4">
-                <Link href="/contact" className="btn-primary">
-                  Get a Free Consultation
-                </Link>
-                <Link href="/services" className="btn-secondary">
-                  See how recovery works
-                </Link>
-              </div>
-            </Reveal>
-            <Reveal delay={0.32}>
-              <p className="hero-meta mt-10">
-                Johannesburg · Female-owned · Compliance-first
-              </p>
-            </Reveal>
+          <div className="container-lyra hero-grid">
+            <div className="hero-copy">
+              <Reveal>
+                <span className="hero-badge">No Collection. No Fee.</span>
+              </Reveal>
+              <Reveal delay={0.08}>
+                <h1 className="heading-display mt-6 max-w-4xl text-balance">
+                  Your invoices are unpaid.{" "}
+                  <span className="block sm:inline">Your cash flow is suffering.</span>{" "}
+                  <span className="block">That ends here.</span>
+                </h1>
+              </Reveal>
+              <Reveal delay={0.16}>
+                <p className="hero-sub mt-6">
+                  Professional debt recovery for South African SMEs who extended
+                  credit, delivered the work, and are still waiting to be paid.
+                  Lyra Group is your guide — compliant, personal, results-based.
+                </p>
+              </Reveal>
+              <Reveal delay={0.24}>
+                <div className="mt-9 flex flex-wrap items-center gap-4">
+                  <Link href="/contact" className="btn-primary">
+                    Get a Free Consultation
+                  </Link>
+                  <Link href="/services" className="btn-secondary">
+                    See how recovery works
+                  </Link>
+                </div>
+              </Reveal>
+              <Reveal delay={0.32}>
+                <p className="hero-meta mt-10">
+                  Johannesburg · Female-owned · Compliance-first
+                </p>
+              </Reveal>
+            </div>
+            {/* Focal 3D Lyra asterism — lazy R3F, does not block first paint */}
+            <div className="hero-3d" aria-hidden="true">
+              <LyraConstellation hero height="100%" className="hero-3d-canvas" />
+            </div>
           </div>
         </div>
       </section>

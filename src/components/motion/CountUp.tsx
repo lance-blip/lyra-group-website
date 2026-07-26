@@ -12,8 +12,13 @@ type CountUpProps = {
 };
 
 /**
- * Viewport-triggered count-up using native IntersectionObserver.
- * Always lands on `end` — never stuck at 0 if the observer misses.
+ * Viewport-triggered count-up.
+ *
+ * Hardened against:
+ * - React Strict Mode double-mount (RAF id in ref; restart-safe)
+ * - Parent opacity:0 / transform (IO still sees layout boxes)
+ * - Missed IO callbacks (scroll/resize + long safety net)
+ * - Worker/hydration races (starts only after mount flag)
  */
 export function CountUp({
   end,
@@ -23,91 +28,155 @@ export function CountUp({
   decimals = 0,
   className,
 }: CountUpProps) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const started = useRef(false);
+  const nodeRef = useRef<HTMLSpanElement>(null);
+  const rafRef = useRef<number>(0);
+  const startedRef = useRef(false);
+  const endRef = useRef(end);
+  endRef.current = end;
+
   const [value, setValue] = useState(0);
   const [done, setDone] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const el = ref.current;
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    const el = nodeRef.current;
     if (!el) return;
 
     const reduce =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const run = () => {
-      if (started.current) return;
-      started.current = true;
+    const cancelRaf = () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = 0;
+      }
+    };
+
+    const finish = () => {
+      cancelRaf();
+      setValue(endRef.current);
+      setDone(true);
+      startedRef.current = true;
+    };
+
+    const animate = () => {
+      if (startedRef.current) return;
+      startedRef.current = true;
 
       if (reduce) {
-        setValue(end);
-        setDone(true);
+        finish();
         return;
       }
 
-      let raf = 0;
+      // Restart from zero every successful trigger
+      setDone(false);
+      setValue(0);
+      const target = endRef.current;
       const start = performance.now();
+      const ms = Math.max(0.4, duration) * 1000;
+
       const tick = (now: number) => {
-        const t = Math.min(1, (now - start) / (duration * 1000));
-        // ease-out cubic
+        const t = Math.min(1, (now - start) / ms);
         const eased = 1 - Math.pow(1 - t, 3);
-        setValue(end * eased);
+        setValue(target * eased);
         if (t < 1) {
-          raf = requestAnimationFrame(tick);
+          rafRef.current = requestAnimationFrame(tick);
         } else {
-          setValue(end);
+          setValue(target);
           setDone(true);
+          rafRef.current = 0;
         }
       };
-      raf = requestAnimationFrame(tick);
-      return () => cancelAnimationFrame(raf);
+
+      rafRef.current = requestAnimationFrame(tick);
     };
 
-    // Fallback: if already visible on mount (or observer fails), still animate
-    const rect = el.getBoundingClientRect();
-    const vh = window.innerHeight || 0;
-    if (rect.top < vh * 0.95 && rect.bottom > 0) {
-      const cleanup = run();
-      return typeof cleanup === "function" ? cleanup : undefined;
+    const inView = () => {
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight || 0;
+      // Generous band — stats often sit mid-scroll inside transformed parents
+      return rect.top < vh * 0.92 && rect.bottom > vh * 0.05;
+    };
+
+    if (inView()) animate();
+
+    let io: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== "undefined") {
+      io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting || entry.intersectionRatio > 0) {
+              animate();
+              io?.disconnect();
+              break;
+            }
+          }
+        },
+        {
+          threshold: [0, 0.05, 0.1, 0.2],
+          rootMargin: "0px 0px -5% 0px",
+        },
+      );
+      io.observe(el);
     }
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            run();
-            io.disconnect();
-            break;
-          }
-        }
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -5% 0px" },
-    );
-    io.observe(el);
-
-    // Absolute safety: after 4s if never triggered, snap to end
-    const safety = window.setTimeout(() => {
-      if (!started.current) {
-        setValue(end);
-        setDone(true);
-        started.current = true;
+    const onScrollOrResize = () => {
+      if (!startedRef.current && inView()) {
+        animate();
+        window.removeEventListener("scroll", onScrollOrResize, true);
+        window.removeEventListener("resize", onScrollOrResize);
       }
-    }, 4000);
+    };
+    window.addEventListener("scroll", onScrollOrResize, { passive: true, capture: true });
+    window.addEventListener("resize", onScrollOrResize, { passive: true });
+
+    // Absolute safety — never leave R0 on screen
+    const safety = window.setTimeout(() => {
+      if (!startedRef.current) finish();
+      else if (!done) {
+        // Animation started but stalled
+        finish();
+      }
+    }, 3500);
+
+    // Extra belt: if still zero after 6s, force end
+    const hard = window.setTimeout(finish, 6000);
 
     return () => {
-      io.disconnect();
+      io?.disconnect();
       window.clearTimeout(safety);
+      window.clearTimeout(hard);
+      window.removeEventListener("scroll", onScrollOrResize, true);
+      window.removeEventListener("resize", onScrollOrResize);
+      cancelRaf();
+      // Allow re-run after Strict Mode cleanup / remount
+      startedRef.current = false;
     };
-  }, [end, duration]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `done` read only inside timeout
+  }, [mounted, end, duration]);
 
+  const display = done ? end : value;
   const formatted =
     decimals > 0
-      ? (done ? end : value).toFixed(decimals)
-      : Math.round(done ? end : value).toLocaleString("en-ZA");
+      ? display.toFixed(decimals)
+      : Math.round(display).toLocaleString("en-ZA");
 
   return (
-    <span ref={ref} className={className} data-count-end={end} data-count-done={done ? "1" : "0"}>
+    <span
+      ref={nodeRef}
+      className={className}
+      data-count-end={end}
+      data-count-done={done ? "1" : "0"}
+      data-count-mounted={mounted ? "1" : "0"}
+      aria-label={`${prefix}${decimals > 0 ? end.toFixed(decimals) : end}${suffix}`}
+    >
       {prefix}
       {formatted}
       {suffix}
