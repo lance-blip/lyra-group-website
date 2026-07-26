@@ -1,272 +1,239 @@
+"use client";
+
 import Link from "next/link";
 import { CountUp } from "@/components/motion/CountUp";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import {
+  EmberPolyhedron,
+  LyraConstellation,
+  PlanOrbs,
+} from "@/components/three";
 
 const PROBLEMS = [
   {
-    title: "External",
-    body: "Debtors delay, dispute, or disappear while you chase politely and cash stays locked.",
+    kind: "External",
+    title: "Debtors are not paying",
+    body: "Invoices age. Follow-ups stall. Your team is busy delivering work — not chasing money already earned.",
   },
   {
-    title: "Internal",
-    body: "Your team wasn't hired to be collectors — time, focus, and morale drain every week.",
+    kind: "Internal",
+    title: "Cash flow pressure is personal",
+    body: "Salaries, suppliers, tax — unpaid invoices do not wait politely. The stress lands on the owner.",
   },
   {
-    title: "Philosophical",
-    body: "You delivered the work. Being paid shouldn't feel like a favour.",
+    kind: "Philosophical",
+    title: "You should not write off what is yours",
+    body: "Hoping it resolves is not a recovery strategy. Professional pursuit protects the value you already created.",
   },
-];
-
-const VALUES = [
-  "WE FIND.",
-  "WE STAND FIRM.",
-  "WE ILLUMINATE.",
-  "WE RISE.",
-  "WE FINISH.",
 ];
 
 const PLAN = [
   {
     step: "01",
     title: "Submit your mandate",
-    body: "Share the debt details. We assess recoverability at no cost.",
+    body: "Share the debt details. We validate, advise, and set expectations — no upfront fee theatre.",
   },
   {
     step: "02",
-    title: "We pursue with precision",
-    body: "Structured, lawful recovery across our 6-stage process.",
+    title: "We pursue professionally",
+    body: "Structured outreach, lawful pressure, clear documentation. You get status — not silence.",
   },
   {
     step: "03",
     title: "You get paid",
-    body: "Recovered funds returned. Our fee only on success.",
+    body: "Recovered funds flow back to you. We only earn when recovery lands. No collection. No fee.",
   },
 ];
 
 const SERVICES = [
   {
-    title: "Get paid on commercial invoices that have gone quiet",
+    title: "When B2B invoices go quiet",
+    body: "Commercial recovery built for SME credit relationships — firm, documented, relationship-aware.",
     href: "/services#commercial",
-    icon: "01",
   },
   {
-    title: "Recover consumer debt without damaging your brand",
+    title: "When consumer accounts stall",
+    body: "Compliant consumer collection with POPIA discipline and professional tone throughout.",
     href: "/services#consumer",
-    icon: "02",
   },
   {
-    title: "Escalate with legal muscle when persuasion isn't enough",
-    href: "/services#legal",
-    icon: "03",
+    title: "When the trail goes cold",
+    body: "Skip tracing and debtor location so pursuit does not die on a wrong address.",
+    href: "/services#tracing",
   },
   {
-    title: "Outsource the chase so your team can run the business",
-    href: "/services#mandate",
-    icon: "04",
+    title: "When you need the full path",
+    body: "From letter of demand through structured escalation — one guide, one process.",
+    href: "/services#workflow",
   },
 ];
 
-const STAKES = [
-  {
-    title: "Prescription risk",
-    body: "Leave debt too long and the law may close the door for good.",
-  },
-  {
-    title: "Silent write-offs",
-    body: "Money already earned disappears from the balance sheet — and from your options.",
-  },
-  {
-    title: "Cash-flow death spiral",
-    body: "Unpaid invoices starve payroll, stock, and growth while you wait politely.",
-  },
-];
-
-const SUCCESS = [
-  {
-    title: "Cash back where it belongs",
-    body: "Recovered funds land in your account — not stuck in someone else's float.",
-  },
-  {
-    title: "Your team off the chase",
-    body: "Operations return to selling and delivering, not polite follow-ups.",
-  },
-  {
-    title: "Sleep restored",
-    body: "Clarity on what's being done — and a path out of the cash-flow knot.",
-  },
+const VALUES = [
+  "WE FIND",
+  "WE STAND FIRM",
+  "WE ILLUMINATE",
+  "WE RISE",
+  "WE FINISH",
 ];
 
 const FAQS = [
   {
     q: "What happens if you can't collect?",
-    a: "You pay nothing for unsuccessful recovery under our No Collection. No Fee. model.",
-    expand:
-      "If a debt proves unrecoverable after professional pursuit, you are not billed a success fee. We are clear upfront when a mandate is a poor fit.",
+    a: "You pay no collection fee on amounts we do not recover. We close with a clear outcome report so you know what was tried and why.",
   },
   {
     q: "How do you handle debtors who dispute the debt?",
-    a: "We validate the claim, document the dispute, and proceed only on a lawful, evidence-led path.",
-    expand:
-      "Disputes are not ignored and not bullied. Clear files protect your position and your reputation.",
+    a: "We pause aggressive pursuit, request your supporting documents, and assess the dispute on facts — not pressure tactics.",
   },
   {
     q: "Is there a minimum debt amount?",
-    a: "We focus on commercial matters where professional recovery is economically sensible — confirmed during consultation.",
-    expand:
-      "Very small balances may not justify formal collection. We'll tell you honestly if internal follow-up is the better first step.",
+    a: "We focus on commercial matters that justify professional pursuit. Share the balance on consultation and we will advise honestly.",
   },
   {
     q: "How long does the process take?",
-    a: "Timelines vary by debtor response and complexity — many mandates show movement within weeks, not years.",
-    expand:
-      "Early engagement is faster than aged books. We set expectations at mandate intake, not after the fact.",
-  },
-  {
-    q: 'What does "No Collection. No Fee." actually include?',
-    a: "Our success fee applies when we recover — you are not funding a retainer for empty activity.",
-    expand:
-      "Scope and commission tiers are confirmed in your mandate. Transparency over fine print.",
-  },
-  {
-    q: "Will debt collection damage my customer relationships?",
-    a: "Professional, compliant engagement is designed to recover money without scorched-earth tactics.",
-    expand:
-      "Tone matters. We represent your brand with firmness and respect — especially where ongoing trade may continue.",
+    a: "Many matters move within weeks; complex or disputed files take longer. Timelines depend on debtor engagement and documentation quality.",
   },
   {
     q: "Are you registered and POPIA compliant?",
-    a: "Yes — compliance is framed as your protection, not our vanity credentials.",
-    expand:
-      "See our Compliance page for registrations, legislation, trust account handling, and POPIA commitments.",
+    a: "Yes — compliance is how we protect you. See our Compliance page for registrations, legislation, and data commitments.",
   },
   {
-    q: "Do you collect across South Africa or only Johannesburg?",
-    a: "We are Johannesburg-based and support recovery matters across South Africa.",
-    expand:
-      "Debtors are not limited to one city. Process and compliance standards travel with the mandate.",
+    q: "What does 'No Collection. No Fee.' actually mean?",
+    a: "Our collection fee is commission-based on successful recovery. If we do not collect, you do not pay that fee.",
+  },
+  {
+    q: "Will collection damage my client relationships?",
+    a: "We use professional, lawful communication. Many clients prefer a third party so the commercial relationship is not the daily chaser.",
+  },
+  {
+    q: "Can you work with debts already prescribed or very old?",
+    a: "Prescription and age change options. We assess enforceability up front and will not sell you false hope.",
   },
 ];
 
 export default function HomePage() {
   return (
-    <div className="prose-lyra">
-      {/* Hero — full viewport, WCAG-safe contrast */}
+    <div>
+      {/* ── HERO ─────────────────────────────────────────── */}
       <section className="hero-shell">
         <div className="hero-stars" aria-hidden />
         <div className="hero-overlay" aria-hidden />
         <div className="hero-content">
           <div className="container-lyra">
-            <Reveal y={18}>
-              <div className="hero-badge">No Collection. No Fee.</div>
+            <Reveal>
+              <span className="hero-badge">No Collection. No Fee.</span>
             </Reveal>
-            <Reveal delay={0.08} y={24}>
-              <h1 className="heading-display mt-6 max-w-4xl">
-                Your invoices are unpaid. Your cash flow is suffering. That ends
-                here.
+            <Reveal delay={0.08}>
+              <h1 className="heading-display mt-6 max-w-4xl text-balance">
+                Your invoices are unpaid.{" "}
+                <span className="block sm:inline">Your cash flow is suffering.</span>{" "}
+                <span className="block">That ends here.</span>
               </h1>
             </Reveal>
-            <Reveal delay={0.16} y={20}>
+            <Reveal delay={0.16}>
               <p className="hero-sub mt-6">
-                Lyra Group helps South African SMEs recover B2B debt —
-                professionally, compliantly, and only when we succeed.
+                Professional debt recovery for South African SMEs who extended
+                credit, delivered the work, and are still waiting to be paid.
+                Lyra Group is your guide — compliant, personal, results-based.
               </p>
             </Reveal>
-            <Reveal delay={0.24} y={16}>
-              <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <Reveal delay={0.24}>
+              <div className="mt-9 flex flex-wrap items-center gap-4">
                 <Link href="/contact" className="btn-primary">
                   Get a Free Consultation
                 </Link>
-                <a href="#plan" className="btn-secondary">
-                  See how it works
-                </a>
+                <Link href="/services" className="btn-secondary">
+                  See how recovery works
+                </Link>
               </div>
             </Reveal>
             <Reveal delay={0.32}>
               <p className="hero-meta mt-10">
-                CDC-aligned · POPIA compliant · Female-owned · Johannesburg
+                Johannesburg · Female-owned · Compliance-first
               </p>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* Problem */}
-      <section className="container-lyra section-pad">
-        <Reveal>
-          <p className="eyebrow">The problem</p>
-          <h2 className="heading-xl heading-accent-rule mt-3 max-w-3xl">
-            Unpaid invoices don&apos;t just hurt your books — they stall your
-            business
-          </h2>
-        </Reveal>
-        <Stagger className="mt-12 grid gap-6 md:grid-cols-3" stagger={0.12}>
-          {PROBLEMS.map((item) => (
-            <StaggerItem key={item.title}>
-              <div className="card-lyra h-full border-l-4 border-l-lyra-accent-strong">
-                <h3 className="heading-lg">{item.title}</h3>
-                <p className="mt-3 text-[0.95rem] leading-relaxed text-lyra-muted">
-                  {item.body}
-                </p>
-              </div>
-            </StaggerItem>
-          ))}
-        </Stagger>
-        <Reveal delay={0.15}>
-          <p className="mt-10 text-lg font-semibold text-lyra-primary">
-            Hoping they&apos;ll pay is not a recovery strategy.
-          </p>
-        </Reveal>
-      </section>
-
-      {/* Guide */}
-      <section className="border-y border-lyra-border bg-white">
-        <div className="container-lyra section-pad">
+      {/* ── PROBLEM ──────────────────────────────────────── */}
+      <section className="section-pad bg-lyra-bg">
+        <div className="container-lyra">
           <Reveal>
-            <p className="eyebrow">Your guide</p>
-            <h2 className="heading-xl heading-accent-rule mt-3 max-w-3xl">
-              A recovery partner who stands with you — not above you
+            <p className="eyebrow">The problem</p>
+            <h2 className="heading-xl heading-accent-rule mt-3 max-w-2xl">
+              You already earned this money. Chasing it should not be your second job.
             </h2>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-lyra-muted">
-              Lyra Group is founder-led by Lee-Hing Sinnye — personal service,
-              compliance-first process, and female-owned pride without the
-              corporate runaround. We guide SME owners through recovery so you
-              can get back to running the business.
-            </p>
           </Reveal>
-          <Stagger className="mt-8 flex flex-wrap gap-2.5" stagger={0.08}>
-            {[
-              "Professional process",
-              "Trust account discipline",
-              "SA legislation fluency",
-            ].map((chip) => (
-              <StaggerItem key={chip}>
-                <span className="inline-flex rounded-full border border-lyra-accent/35 bg-lyra-star/80 px-3.5 py-1.5 text-xs font-bold tracking-wide text-lyra-primary">
-                  {chip}
-                </span>
+          <Stagger className="mt-12 grid gap-6 md:grid-cols-3">
+            {PROBLEMS.map((p) => (
+              <StaggerItem key={p.kind}>
+                <article className="card-lyra h-full">
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-lyra-accent-strong">
+                    {p.kind}
+                  </p>
+                  <h3 className="heading-lg mt-3">{p.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-lyra-muted">
+                    {p.body}
+                  </p>
+                </article>
               </StaggerItem>
             ))}
           </Stagger>
-          <Reveal delay={0.1}>
-            <Link
-              href="/about"
-              className="mt-8 inline-flex text-sm font-bold text-lyra-accent-strong underline-offset-4 hover:underline"
-            >
-              Meet your guide →
+        </div>
+      </section>
+
+      {/* ── GUIDE ────────────────────────────────────────── */}
+      <section className="section-pad bg-lyra-surface">
+        <div className="container-lyra grid items-center gap-12 lg:grid-cols-2">
+          <Reveal>
+            <p className="eyebrow">Your guide</p>
+            <h2 className="heading-xl heading-accent-rule mt-3">
+              Lyra Group stands with you — not above you
+            </h2>
+            <p className="mt-6 text-base leading-relaxed text-lyra-muted">
+              Founded by Lee-Hing Sinnye (BBA), Lyra Group is a Johannesburg
+              debt collection agency built for SME owners who need recovery
+              without intimidation theatre or upfront fee traps.
+            </p>
+            <ul className="mt-6 space-y-3 text-sm text-lyra-muted">
+              <li className="flex gap-3">
+                <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-lyra-accent-strong" />
+                Compliance-first pursuit that protects your reputation
+              </li>
+              <li className="flex gap-3">
+                <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-lyra-accent-strong" />
+                Personal service — you know who is working your file
+              </li>
+              <li className="flex gap-3">
+                <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-lyra-accent-strong" />
+                Female-owned, commission-aligned: we win when you get paid
+              </li>
+            </ul>
+            <Link href="/about" className="btn-secondary-light mt-8">
+              Meet the team behind the recovery
             </Link>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <div className="relative overflow-hidden rounded-2xl border border-lyra-border bg-lyra-primary-deep shadow-lg">
+              <LyraConstellation height={320} subtle />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-lyra-primary-deep via-lyra-primary-deep/80 to-transparent p-6 pt-16">
+                <p className="font-serif text-lg text-lyra-star">
+                  Named for the Lyra constellation — stars that guide value home.
+                </p>
+              </div>
+            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* Values strip — sequential reveal */}
-      <section className="values-strip text-lyra-star">
-        <div className="container-lyra py-12 md:py-14">
-          <Stagger
-            className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-center"
-            stagger={0.14}
-          >
+      {/* ── VALUES STRIP ─────────────────────────────────── */}
+      <section className="values-strip py-8 md:py-10">
+        <div className="container-lyra">
+          <Stagger className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 md:justify-between">
             {VALUES.map((v) => (
               <StaggerItem key={v}>
-                <span className="font-serif text-sm font-bold tracking-[0.14em] text-lyra-accent sm:text-base md:text-lg">
+                <span className="font-serif text-sm font-semibold tracking-[0.14em] text-lyra-accent sm:text-base">
                   {v}
                 </span>
               </StaggerItem>
@@ -275,220 +242,205 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Failure / Stakes */}
-      <section className="container-lyra section-pad !pb-10">
-        <Reveal>
-          <p className="eyebrow">What delay costs you</p>
-          <h2 className="heading-xl heading-accent-rule mt-3 max-w-3xl">
-            Ignore it long enough and the money doesn&apos;t just wait — it
-            vanishes
-          </h2>
-        </Reveal>
-        <Stagger className="mt-12 grid gap-6 md:grid-cols-3" stagger={0.1}>
-          {STAKES.map((s) => (
-            <StaggerItem key={s.title}>
-              <div className="card-lyra h-full">
-                <div className="mb-3 h-1 w-10 rounded-full bg-lyra-accent-strong" />
-                <h3 className="heading-lg">{s.title}</h3>
-                <p className="mt-3 text-[0.95rem] leading-relaxed text-lyra-muted">
-                  {s.body}
-                </p>
-              </div>
-            </StaggerItem>
-          ))}
-        </Stagger>
-      </section>
-
-      {/* Plan */}
-      <section id="plan" className="container-lyra section-pad !pt-10">
-        <Reveal>
-          <p className="eyebrow">The plan</p>
-          <h2 className="heading-xl heading-accent-rule mt-3">
-            Three steps. No upfront risk.
-          </h2>
-        </Reveal>
-        <Stagger className="mt-12 grid gap-6 md:grid-cols-3" stagger={0.12}>
-          {PLAN.map((p) => (
-            <StaggerItem key={p.step}>
-              <div className="card-lyra h-full">
-                <div className="font-mono text-sm font-bold text-lyra-accent-strong">
-                  {p.step}
-                </div>
-                <h3 className="heading-lg mt-3">{p.title}</h3>
-                <p className="mt-3 text-[0.95rem] leading-relaxed text-lyra-muted">
-                  {p.body}
-                </p>
-              </div>
-            </StaggerItem>
-          ))}
-        </Stagger>
-        <Reveal delay={0.1}>
-          <div className="mt-10 inline-flex rounded-full border border-lyra-accent-strong/40 bg-gradient-to-r from-lyra-star to-white px-5 py-2 text-xs font-bold uppercase tracking-[0.14em] text-lyra-primary shadow-sm">
-            No Collection. No Fee.
-          </div>
-        </Reveal>
-      </section>
-
-      {/* Success */}
-      <section className="border-y border-lyra-border bg-white">
-        <div className="container-lyra section-pad">
+      {/* ── PLAN ─────────────────────────────────────────── */}
+      <section className="section-pad bg-lyra-bg">
+        <div className="container-lyra">
           <Reveal>
-            <p className="eyebrow">Success</p>
-            <h2 className="heading-xl heading-accent-rule mt-3 max-w-3xl">
-              What recovery actually feels like
+            <p className="eyebrow">The plan</p>
+            <h2 className="heading-xl heading-accent-rule mt-3 max-w-2xl">
+              Three clear steps from unpaid invoice to money in your account
             </h2>
           </Reveal>
-          <Stagger className="mt-12 grid gap-6 md:grid-cols-3" stagger={0.1}>
-            {SUCCESS.map((s) => (
-              <StaggerItem key={s.title}>
-                <div className="card-lyra h-full">
-                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-lyra-accent/20 text-lyra-accent-strong">
-                    <span className="text-lg" aria-hidden>
-                      ✓
-                    </span>
-                  </div>
-                  <h3 className="heading-lg">{s.title}</h3>
-                  <p className="mt-3 text-[0.95rem] leading-relaxed text-lyra-muted">
-                    {s.body}
+          <Reveal delay={0.1}>
+            <PlanOrbs className="mt-8 hidden md:block" />
+          </Reveal>
+          <Stagger className="mt-10 grid gap-6 md:grid-cols-3">
+            {PLAN.map((step) => (
+              <StaggerItem key={step.step}>
+                <article className="card-lyra h-full">
+                  <span className="font-mono text-sm font-bold text-lyra-accent-strong">
+                    {step.step}
+                  </span>
+                  <h3 className="heading-lg mt-3">{step.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-lyra-muted">
+                    {step.body}
                   </p>
-                </div>
+                </article>
               </StaggerItem>
             ))}
           </Stagger>
         </div>
       </section>
 
-      {/* Services overview */}
-      <section className="container-lyra section-pad">
-        <Reveal>
-          <p className="eyebrow">How we help</p>
-          <h2 className="heading-xl heading-accent-rule mt-3">
-            Built around the problem you&apos;re actually facing
-          </h2>
-        </Reveal>
-        <Stagger className="mt-12 grid gap-5 sm:grid-cols-2" stagger={0.1}>
-          {SERVICES.map((s) => (
-            <StaggerItem key={s.title}>
-              <Link href={s.href} className="card-lyra group block h-full">
-                <span className="font-mono text-xs font-bold text-lyra-accent-strong">
-                  {s.icon}
-                </span>
-                <h3 className="heading-lg mt-3 transition group-hover:text-lyra-accent-hover">
-                  {s.title}
-                </h3>
-                <span className="mt-4 inline-block text-sm font-bold text-lyra-accent-strong">
-                  View services →
-                </span>
+      {/* ── SERVICES ─────────────────────────────────────── */}
+      <section className="section-pad bg-lyra-surface">
+        <div className="container-lyra">
+          <div className="grid items-end gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+            <Reveal>
+              <p className="eyebrow">Services</p>
+              <h2 className="heading-xl heading-accent-rule mt-3 max-w-xl">
+                Recovery shaped around the problem you are actually facing
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1} className="hidden lg:block">
+              <EmberPolyhedron />
+            </Reveal>
+          </div>
+          <Stagger className="mt-12 grid gap-6 sm:grid-cols-2">
+            {SERVICES.map((s) => (
+              <StaggerItem key={s.title}>
+                <Link href={s.href} className="card-lyra block h-full no-underline">
+                  <h3 className="heading-lg">{s.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-lyra-muted">
+                    {s.body}
+                  </p>
+                  <span className="mt-5 inline-block text-sm font-semibold text-lyra-accent-strong">
+                    Explore service →
+                  </span>
+                </Link>
+              </StaggerItem>
+            ))}
+          </Stagger>
+          <Reveal>
+            <div className="mt-10">
+              <Link href="/services" className="btn-secondary-light">
+                View all services & rates
               </Link>
-            </StaggerItem>
-          ))}
-        </Stagger>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
-      {/* Stats with count-up */}
-      <section className="relative overflow-hidden bg-lyra-primary-deep text-white">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-50"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 20% 40%, rgba(212,165,116,0.2), transparent 35%), radial-gradient(circle at 80% 70%, rgba(61,79,111,0.5), transparent 40%)",
-          }}
-        />
-        <div className="container-lyra section-pad relative z-10">
+      {/* ── STATS ────────────────────────────────────────── */}
+      <section className="section-pad bg-lyra-primary-deep text-lyra-star">
+        <div className="container-lyra">
           <Reveal>
-            <h2 className="max-w-3xl font-serif text-[clamp(1.75rem,3.5vw,2.75rem)] font-bold leading-tight tracking-tight text-white">
-              South African businesses are sitting on money that belongs to them
+            <p className="eyebrow !text-lyra-accent">The scale of the problem</p>
+            <h2 className="mt-3 max-w-2xl font-serif text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              South Africa&apos;s unpaid debt is not a side issue — it is a cash-flow crisis for SMEs
             </h2>
           </Reveal>
-          <div className="mt-12 grid gap-10 sm:grid-cols-2">
-            <Reveal delay={0.05}>
-              <div>
-                <div className="font-serif text-4xl font-bold text-lyra-accent sm:text-5xl md:text-6xl">
-                  ~R
-                  <CountUp end={2.4} decimals={1} />T
-                </div>
-                <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/75">
-                  Household debt context in South Africa (industry landscape)
+          <div className="mt-12 grid gap-8 sm:grid-cols-2">
+            <Reveal delay={0.08}>
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
+                <p className="font-mono text-4xl font-bold tracking-tight text-lyra-accent sm:text-5xl">
+                  <CountUp end={2.4} prefix="R" suffix="T" decimals={1} />
+                </p>
+                <p className="mt-3 text-sm leading-relaxed text-white/80">
+                  Household debt context in South Africa — the pressure that
+                  makes recovery harder and more urgent for businesses.
                 </p>
               </div>
             </Reveal>
-            <Reveal delay={0.12}>
-              <div>
-                <div className="font-serif text-4xl font-bold text-lyra-accent sm:text-5xl md:text-6xl">
-                  R
-                  <CountUp end={500} />B+
-                </div>
-                <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/75">
-                  Non-performing loans landscape — pressure that hits SME cash
-                  flow
+            <Reveal delay={0.16}>
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
+                <p className="font-mono text-4xl font-bold tracking-tight text-lyra-accent sm:text-5xl">
+                  <CountUp end={500} prefix="R" suffix="B+" decimals={0} />
+                </p>
+                <p className="mt-3 text-sm leading-relaxed text-white/80">
+                  Non-performing loans and distressed books at scale — your
+                  unpaid invoice sits inside a national recovery challenge.
                 </p>
               </div>
             </Reveal>
           </div>
-          <Reveal delay={0.18}>
-            <p className="mt-12 max-w-2xl text-base text-white/85">
-              You don&apos;t need another lecture on the economy. You need a
-              recovery plan.
+          <Reveal delay={0.2}>
+            <p className="mt-8 max-w-2xl text-xs text-white/55">
+              Figures are industry-context markers for narrative scale, not a
+              claim about Lyra Group&apos;s book. Sources refined at content lock.
             </p>
           </Reveal>
         </div>
       </section>
 
-      {/* Testimonials placeholders */}
-      <section className="container-lyra section-pad">
-        <Reveal>
-          <p className="eyebrow">Client voices</p>
-          <h2 className="heading-xl heading-accent-rule mt-3">
-            Results other business owners can feel in their cash flow
-          </h2>
-        </Reveal>
-        <Stagger className="mt-12 grid gap-6 md:grid-cols-3" stagger={0.1}>
-          {[
-            "Construction SME",
-            "Professional services",
-            "Wholesale distributor",
-          ].map((industry) => (
-            <StaggerItem key={industry}>
-              <figure className="card-lyra h-full">
-                <div className="text-lyra-accent-strong" aria-label="5 stars">
-                  ★★★★★
-                </div>
-                <blockquote className="mt-4 text-[0.95rem] italic leading-relaxed text-lyra-muted">
-                  REPLACE WITH REAL QUOTE — {industry} client testimonial
-                  pending Lee-Hing approval.
-                </blockquote>
-                <figcaption className="mt-5 text-xs font-bold uppercase tracking-wide text-lyra-primary">
-                  Client name · Company · {industry}
-                </figcaption>
-              </figure>
-            </StaggerItem>
-          ))}
-        </Stagger>
-        <Reveal>
-          <Link
-            href="/testimonials"
-            className="mt-8 inline-block text-sm font-bold text-lyra-accent-strong underline-offset-4 hover:underline"
-          >
-            Read more client results →
-          </Link>
-        </Reveal>
+      {/* ── SUCCESS / CONSTELLATION ──────────────────────── */}
+      <section className="section-pad relative overflow-hidden bg-lyra-bg">
+        <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-1/2 opacity-80 lg:block">
+          <LyraConstellation height={480} />
+        </div>
+        <div className="container-lyra relative">
+          <Reveal>
+            <p className="eyebrow">Success</p>
+            <h2 className="heading-xl heading-accent-rule mt-3 max-w-xl">
+              What winning looks like for the business owner
+            </h2>
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-lyra-muted">
+              Debt recovered. Cash flow breathing again. Less time on awkward
+              follow-ups — more time running the business you built. That is the
+              outcome the guide is measured on.
+            </p>
+            <Link href="/testimonials" className="btn-secondary-light mt-8">
+              See client result stories
+            </Link>
+          </Reveal>
+        </div>
       </section>
 
-      {/* FAQ */}
-      <section className="border-t border-lyra-border bg-white">
-        <div className="container-lyra section-pad">
+      {/* ── TESTIMONIALS ─────────────────────────────────── */}
+      <section className="section-pad bg-lyra-surface">
+        <div className="container-lyra">
+          <Reveal>
+            <p className="eyebrow">Social proof</p>
+            <h2 className="heading-xl heading-accent-rule mt-3">
+              Results other owners can feel in their cash flow
+            </h2>
+            <p className="mt-4 max-w-2xl text-sm text-lyra-muted">
+              Placeholder testimonials for launch structure — Lee-Hing replaces
+              with real client quotes before go-live. No fabricated names as
+              final truth.
+            </p>
+          </Reveal>
+          <Stagger className="mt-10 grid gap-6 md:grid-cols-3">
+            {[
+              {
+                quote:
+                  "REPLACE WITH REAL QUOTE — e.g. recovered outstanding invoices within weeks without damaging the commercial relationship.",
+                name: "Client name",
+                company: "Company · Industry",
+              },
+              {
+                quote:
+                  "REPLACE WITH REAL QUOTE — e.g. clear updates, compliant process, money back in the account.",
+                name: "Client name",
+                company: "Company · Industry",
+              },
+              {
+                quote:
+                  "REPLACE WITH REAL QUOTE — e.g. finally a collector that explains the path and only earns on results.",
+                name: "Client name",
+                company: "Company · Industry",
+              },
+            ].map((t, i) => (
+              <StaggerItem key={i}>
+                <figure className="card-lyra flex h-full flex-col">
+                  <blockquote className="flex-1 text-sm leading-relaxed text-lyra-muted">
+                    “{t.quote}”
+                  </blockquote>
+                  <figcaption className="mt-6 border-t border-lyra-border pt-4">
+                    <p className="text-sm font-semibold text-lyra-primary">{t.name}</p>
+                    <p className="text-xs text-lyra-muted">{t.company}</p>
+                  </figcaption>
+                </figure>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* ── FAQ ──────────────────────────────────────────── */}
+      <section className="section-pad bg-lyra-bg">
+        <div className="container-lyra max-w-3xl">
           <Reveal>
             <p className="eyebrow">Questions owners actually ask</p>
             <h2 className="heading-xl heading-accent-rule mt-3">
-              Straight answers before you commit
+              Straight answers before you hand over a mandate
             </h2>
           </Reveal>
-          <div className="mt-12 space-y-3">
+          <div className="mt-10 space-y-3">
             {FAQS.map((item, i) => (
-              <Reveal key={item.q} delay={Math.min(i * 0.03, 0.2)}>
-                <details className="group rounded-2xl border border-lyra-border bg-lyra-bg px-5 py-4 shadow-sm open:border-lyra-accent/40 open:shadow-md">
-                  <summary className="cursor-pointer list-none font-semibold text-lyra-primary marker:content-none">
+              <Reveal key={item.q} delay={i * 0.03}>
+                <details className="group card-lyra !p-0 open:shadow-md">
+                  <summary className="cursor-pointer list-none px-5 py-4 font-semibold text-lyra-primary marker:content-none [&::-webkit-details-marker]:hidden">
                     <span className="flex items-start justify-between gap-4">
                       {item.q}
                       <span className="mt-0.5 text-lyra-accent-strong transition group-open:rotate-45">
@@ -496,12 +448,12 @@ export default function HomePage() {
                       </span>
                     </span>
                   </summary>
-                  <p className="mt-3 text-sm font-semibold text-lyra-primary">
-                    {item.a}
-                  </p>
-                  <p className="mt-2 text-sm leading-relaxed text-lyra-muted">
-                    {item.expand}
-                  </p>
+                  <div className="border-t border-lyra-border px-5 py-4 text-sm leading-relaxed text-lyra-muted">
+                    <p>
+                      <strong className="text-lyra-primary">In short: </strong>
+                      {item.a}
+                    </p>
+                  </div>
                 </details>
               </Reveal>
             ))}
@@ -509,26 +461,33 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-lyra-primary-deep via-lyra-primary to-[#243556] text-white">
+      {/* ── FINAL CTA — same contrast treatment as hero ─── */}
+      <section className="relative isolate overflow-hidden bg-lyra-primary-deep">
+        <div className="hero-stars opacity-40" aria-hidden />
         <div
+          className="pointer-events-none absolute inset-0 z-[1]"
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(6,10,20,0.75) 0%, rgba(10,16,32,0.88) 50%, rgba(10,16,32,0.95) 100%)",
+          }}
         />
-        <div className="container-lyra section-pad relative z-10 text-center">
+        <div className="container-lyra relative z-[2] section-pad text-center">
           <Reveal>
-            <h2 className="mx-auto max-w-3xl font-serif text-[clamp(1.85rem,4vw,3rem)] font-bold leading-tight tracking-tight text-white">
+            <p className="eyebrow !text-lyra-accent">Next step</p>
+            <h2 className="mx-auto mt-3 max-w-2xl font-serif text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
               Ready to recover what&apos;s yours?
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-base text-white/90">
-              Free consultation. Clear next steps. No Collection. No Fee.
+            <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/90">
+              Book a free consultation. Bring the invoices. Leave with a clear
+              path — and zero obligation theatre.
             </p>
-            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
               <Link href="/contact" className="btn-primary">
                 Get a Free Consultation
               </Link>
-              <Link href="/contact#whatsapp" className="btn-secondary">
-                WhatsApp us
+              <Link href="/compliance" className="btn-secondary">
+                Review our compliance
               </Link>
             </div>
           </Reveal>

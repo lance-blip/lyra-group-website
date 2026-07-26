@@ -67,7 +67,8 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 space-y-2 border-t border-white/10 pt-7 text-center text-xs leading-relaxed text-white/65 sm:text-left">
+        {/* Bottom bar — always centre-aligned */}
+        <div className="mt-14 space-y-2 border-t border-white/10 pt-7 text-center text-xs leading-relaxed text-white/65">
           <p>
             © 2026 Lyra Group (Pty) Ltd. All Rights Reserved. POPIA Compliant.
           </p>

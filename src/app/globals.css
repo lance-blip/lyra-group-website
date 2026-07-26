@@ -94,10 +94,22 @@ body {
   font-family: var(--font-serif);
   font-weight: 700;
   letter-spacing: -0.03em;
-  line-height: 1.05;
-  font-size: clamp(2.35rem, 6.5vw, 4.75rem);
+  line-height: 1.08;
+  /* Mobile-first: stays readable at 390px without awkward overflow */
+  font-size: clamp(1.85rem, 7.2vw, 4.75rem);
   color: #ffffff;
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+  overflow-wrap: balance;
+  word-break: normal;
+  hyphens: manual;
+}
+
+@media (max-width: 390px) {
+  .heading-display {
+    font-size: 1.75rem;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
 }
 
 .heading-xl {

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/PageShell";
+import { HandshakeIllustration } from "@/components/illustrations/HandshakeIllustration";
+import { LyraConstellation } from "@/components/three";
 
 export const metadata: Metadata = {
   title: "About Lyra Group — Female-Owned Debt Collection Johannesburg",
@@ -38,6 +40,18 @@ export default function AboutPage() {
       description="Founder-led. Compliance-first. Built for SA businesses tired of being ignored by their own debtors."
     >
       <div className="mx-auto max-w-3xl space-y-10">
+        <section className="card-lyra overflow-hidden !p-0">
+          <HandshakeIllustration className="h-auto w-full" />
+          <div className="p-6">
+            <h2 className="font-serif text-2xl">Partnership, not pressure theatre</h2>
+            <p className="mt-2 text-sm leading-relaxed text-lyra-muted">
+              Lyra Group works beside SME owners who extended credit in good
+              faith. Recovery should feel like a professional alliance — clear,
+              lawful, and aligned to results.
+            </p>
+          </div>
+        </section>
+
         <section className="card-lyra">
           <h2 className="font-serif text-2xl">Founder story</h2>
           <div className="mt-4 flex flex-col gap-4 sm:flex-row">
@@ -63,13 +77,18 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="card-lyra">
-          <h2 className="font-serif text-2xl">Brand origin — Lyra</h2>
-          <p className="mt-2 text-sm leading-relaxed text-lyra-muted">
-            Named after the Lyra constellation — stars associated with guidance
-            and precision. Debt recovery is navigation in the dark: find the
-            path, hold course, bring value home.
-          </p>
+        <section className="card-lyra relative overflow-hidden">
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 opacity-70">
+            <LyraConstellation height={240} subtle />
+          </div>
+          <div className="relative max-w-lg">
+            <h2 className="font-serif text-2xl">Brand origin — Lyra</h2>
+            <p className="mt-2 text-sm leading-relaxed text-lyra-muted">
+              Named after the Lyra constellation — stars associated with guidance
+              and precision. Debt recovery is navigation in the dark: find the
+              path, hold course, bring value home.
+            </p>
+          </div>
         </section>
 
         <section>
@@ -88,12 +107,12 @@ export default function AboutPage() {
 
         <section className="card-lyra">
           <h2 className="font-serif text-2xl">Mission & vision</h2>
-          <p className="mt-2 text-sm text-lyra-muted leading-relaxed">
+          <p className="mt-2 text-sm leading-relaxed text-lyra-muted">
             <strong className="text-lyra-primary">Mission:</strong> Help South
             African SME owners recover what they are owed through compliant,
             personal, results-based collection.
           </p>
-          <p className="mt-3 text-sm text-lyra-muted leading-relaxed">
+          <p className="mt-3 text-sm leading-relaxed text-lyra-muted">
             <strong className="text-lyra-primary">Vision:</strong> A market where
             professional recovery is accessible, transparent, and never a
             hostage to upfront fees.
@@ -102,7 +121,7 @@ export default function AboutPage() {
 
         <section className="card-lyra">
           <h2 className="font-serif text-2xl">Female-owned. Stated with pride.</h2>
-          <p className="mt-2 text-sm text-lyra-muted leading-relaxed">
+          <p className="mt-2 text-sm leading-relaxed text-lyra-muted">
             Lyra Group is female-owned. That is not a footnote — it is part of
             how we show up: rigorous, human, and unwilling to hide behind
             aggressive collection theatre. BBBEE positioning details to be

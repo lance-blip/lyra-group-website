@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { DeskIllustration } from "@/components/illustrations/DeskIllustration";
 
 export const metadata: Metadata = {
   title: "Get a Free Consultation",
@@ -24,6 +25,10 @@ export default function ContactPage() {
       </section>
 
       <section className="container-lyra section-pad">
+        <div className="mb-10 overflow-hidden rounded-2xl border border-lyra-border shadow-sm">
+          <DeskIllustration className="h-auto w-full" />
+        </div>
+
         <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="card-lyra">
             <h2 className="font-serif text-2xl text-lyra-primary">
@@ -33,6 +38,7 @@ export default function ContactPage() {
               Fields marked required help us qualify the matter quickly.
               Honeypot spam protection included; Turnstile optional in Phase 2.
             </p>
+
             <div className="mt-6">
               <ContactForm />
             </div>
