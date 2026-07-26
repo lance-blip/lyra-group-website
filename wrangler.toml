@@ -1,0 +1,11 @@
+name = "lyra-group-website"
+main = ".open-next/worker.js"
+compatibility_date = "2025-03-01"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+
+# Secrets set via `wrangler secret put` or dashboard after spike:
+# N8N_WEBHOOK_URL, N8N_HMAC_SECRET, CONTACT_TO_EMAIL, RESEND_API_KEY
